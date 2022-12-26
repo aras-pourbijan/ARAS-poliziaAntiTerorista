@@ -184,6 +184,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Anagrafica\Index.cshtml" />
+    <Content Include="Views\Anagrafica\listaanagrafica.cshtml" />
+    <Content Include="Views\Anagrafica\UpdateTerorista.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

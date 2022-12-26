@@ -9,10 +9,12 @@
     @Html.AntiForgeryToken()
     
         <h4>Anagrafica</h4>
+       
+        <div>@ViewBag.statoAzione </div>
         <hr />
-    <div class=" row mt-2">
+    <div class=" row mt-2 mx-0">
+        <div class="col-6 row flex-wrap">
         @Html.HiddenFor(model => model.IDanagrafica)
-        <div class="col-6 form-control">
             <div class="form-group">
                 @Html.LabelFor(model => model.Cognome, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 d-flex">
@@ -63,9 +65,9 @@
           
         </div>
 
-        <div class="form-group col-6">
+        <div class="form-group col-1 flex-wrap">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Aggiungi Terorrista" class="btn btn-outline-warning" />
             </div>
         </div>
     </div>
