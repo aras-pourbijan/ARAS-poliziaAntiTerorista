@@ -9,13 +9,10 @@
 <div class="text-danger">@ViewBag.errormsg </div>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("aggiungi uno nuovo", "index")
 </p>
-<table class="table table-hover bg-light bg-opacity-25 text-light rounded rounded-2 ">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IDanagrafica)
-        </th>
+<table class="table table-hover bg-light bg-opacity-25 text-light rounded rounded-2 col-10 justify-content-start">
+    <tr class="bg-warning text-black">
         <th>
             @Html.DisplayNameFor(model => model.Cognome)
         </th>
@@ -40,9 +37,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IDanagrafica)
-            </td>
+                @Html.HiddenFor(modelItem => item.IDanagrafica)
             <td>
                 @Html.DisplayFor(modelItem => item.Cognome)
             </td>
@@ -63,7 +58,7 @@
             </td>
             <td>
                 @Html.ActionLink("Aggiorna", "UpdateTerorista", new { id = item.IDanagrafica })
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IDanagrafica })
                 @Html.ActionLink("Elimina", "DelAnagrafica", new { id=item.IDanagrafica})
             </td>
         </tr>

@@ -19,6 +19,21 @@ namespace ARAS.Controllers
             return View();
         }
 
-        
+        public ActionResult infoPartial()
+        {
+
+
+            return View();
+        }
+
+        public ActionResult TotalVerbaliByTras()
+        {
+
+            string test = "test parzial menu";
+
+            return PartialView("_TotalVerbaliByTras");
+        }
+
+       
     }
 }

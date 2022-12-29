@@ -17,7 +17,6 @@ namespace ARAS.Controllers
             return View();
         }
 
-
         //create
         [HttpPost]
         public ActionResult Index(Anagrafica A)
@@ -48,9 +47,11 @@ namespace ARAS.Controllers
                 ViewBag.errormsg=ex.Message;
             }
             finally { conessione.Close(); }
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
             return RedirectToAction("listaanagrafica");
         }
+
+
         //list
         public ActionResult listaanagrafica() {
             List<Anagrafica> ListaAnagrafica = new List<Anagrafica>();
@@ -58,7 +59,7 @@ namespace ARAS.Controllers
             conessione.ConnectionString = ConfigurationManager.ConnectionStrings["PoliziaDB"].ToString();
             conessione.Open();
             SqlCommand Commando = conessione.CreateCommand();
-            Commando.CommandText = "select * from anagrafica ";
+            Commando.CommandText = "select * from anagrafica order by cognome  ";
             Commando.Connection = conessione;
             SqlDataReader reader = Commando.ExecuteReader();
             try
@@ -84,6 +85,7 @@ namespace ARAS.Controllers
 
             return View(ListaAnagrafica);
         }
+
 
         //delete
         public ActionResult DelAnagrafica(int id)
@@ -113,21 +115,24 @@ namespace ARAS.Controllers
             return RedirectToAction("listaanagrafica");
         }
  
+
+        //edite
         public ActionResult UpdateTerorista(int id)
-        {
+        { 
             SqlConnection conessione = new SqlConnection();
             conessione.ConnectionString = ConfigurationManager.ConnectionStrings["PoliziaDB"].ToString();
             conessione.Open();
-            SqlCommand Commando = new SqlCommand();
-            Commando.Parameters.AddWithValue("@ID",id)
-            Commando.CommandText = "select * from anagrafica where IDanagrafica=@ID";
-            Commando.Connection = conessione;
-            SqlDataReader reader = Commando.ExecuteReader();
+            Anagrafica A = new Anagrafica();
             try
             {
+                SqlCommand Commando = new SqlCommand();
+                Commando.Parameters.AddWithValue("@ID", id);
+
+            Commando.CommandText = "select * from anagrafica where IDanagrafica=@ID ";
+            Commando.Connection = conessione;
+            SqlDataReader reader = Commando.ExecuteReader();
                 while (reader.Read())
                 {
-                    Anagrafica A = new Anagrafica();
                     A.IDanagrafica = Convert.ToInt32(reader["IDanagrafica"]);
                     A.Cognome = reader["Cognome"].ToString().ToUpper();
                     A.Nome = reader["Nome"].ToString().ToUpper();
@@ -135,7 +140,7 @@ namespace ARAS.Controllers
                     A.Citta = reader["citta"].ToString();
                     A.CAPpostale = reader["CAP"].ToString();
                     A.CF = reader["CodiceFiscale"].ToString();
-                    
+               
                 }
             }
             catch (Exception ex)
@@ -144,10 +149,39 @@ namespace ARAS.Controllers
             }
             finally { conessione.Close(); }
 
-            return View(ListaAnagrafica);
+            return View(A);
+        }
 
+        [HttpPost]
+        public ActionResult UpdateTerorista(Anagrafica A)
+        {
+            SqlConnection conessione = new SqlConnection();
 
-            return View();  
+            try {
+            conessione.ConnectionString = ConfigurationManager.ConnectionStrings["PoliziaDB"].ToString();
+            conessione.Open();
+          
+            SqlCommand Commando = new SqlCommand();
+                Commando.Parameters.AddWithValue("@IDanagrafica", A.IDanagrafica);
+                Commando.Parameters.AddWithValue("@Nome", A.Nome);
+                Commando.Parameters.AddWithValue("@Cognome", A.Cognome);
+                Commando.Parameters.AddWithValue("@Indirizzo", A.Indirizzo);
+                Commando.Parameters.AddWithValue("@citta", A.Citta);
+                Commando.Parameters.AddWithValue("@CAP", A.CAPpostale);
+                Commando.Parameters.AddWithValue("@Cf", A.CF);
+                Commando.CommandText = "update anagrafica set Cognome=@Cognome , Nome=@Nome , Indirizzo=@Indirizzo , Citta=@Citta , CAP=@CAP , CodiceFiscale=@Cf where IDanagrafica=@IDanagrafica";
+                Commando.Connection = conessione;
+
+                Commando.ExecuteNonQuery();
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+            finally { conessione.Close(); }
+
+            return RedirectToAction("listaanagrafica");
         }
 
     }

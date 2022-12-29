@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ARAS.Models.violazione>
+
+@{
+    ViewBag.Title = "listaViolazioni";
+}
+
+<h2>listaViolazioni</h2><span class="text-success bg-light">    @ViewBag.msg</span>
+
+
+<div class="row">
+    <div class="col-7">
+        
+        <p>
+            @Html.ActionLink("aggiungi violazione", "AddViolazione")
+        </p>
+        <table class="table table-hover bg-light bg-opacity-25 text-light rounded rounded-2 ">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DescrizioineViolenza)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @Html.HiddenFor(modelItem => item.IDviolazioine)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescrizioineViolenza)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DelViolazione", new { id=item.IDviolazioine })
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+    
+
+</div>
